@@ -56,9 +56,19 @@ int main() {
     while (1 != 2) {
         std::cout << "Enter number 1: ";
         std::cin >> number1;
+        while (number1 == 0) {
+            std::cout << "Неверный ввод!\n";
+            std::cout << "Enter number 1: ";
+            std::cin >> number1;
+        }
 
         std::cout << "Enter number 2: ";
         std::cin >> number2;
+        while (number2 == 0) {
+            std::cout << "Неверный ввод!\n";
+            std::cout << "Enter number 2: ";
+            std::cin >> number2;
+        }
 
         Calculator calc(number1, number2);
 

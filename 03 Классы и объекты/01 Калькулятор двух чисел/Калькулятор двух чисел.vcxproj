@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{67d46952-d5e2-4ee9-91d1-0b74fc3f2d9f}</ProjectGuid>
+    <ProjectGuid>{5afd8a70-5559-45cc-85db-6a89b74b1438}</ProjectGuid>
     <RootNamespace>Калькулятордвухчисел</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
