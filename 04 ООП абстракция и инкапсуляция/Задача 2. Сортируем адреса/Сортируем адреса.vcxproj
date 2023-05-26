@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{91d575d8-9aa7-472e-9625-c910714f0582}</ProjectGuid>
+    <ProjectGuid>{4b295067-e350-48a5-8203-6ebc4134c60d}</ProjectGuid>
     <RootNamespace>Сортируемадреса</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
