@@ -1,3 +1,4 @@
+#include "Check.h"
 #include <iostream>
 #include <string>
 #include "figure.h"
@@ -10,7 +11,7 @@
 #include "Square.h"
 #include "Parallelogram.h"
 #include "Rhombus.h"
-#include "Check.h"
+
 
 
 int main()
@@ -18,18 +19,24 @@ int main()
 	setlocale(LC_ALL, "Russian");
 	Check checker;
 
-	Triangle triangle(3, "Треугольник: \n");
-	if (checker.checkTriangle(10, 20, 30, 50, 60, 90) == true) {
-		try {
-			triangle.set_lenght_and_corners(10, 20, 30, 50, 60, 90);
-			throw "Прямоугольный треугольник" '(' << "стороны" << 10, ' ', 20, ' ', 30 << " углы ": 50, ' ', 60, ' ', 90) "создан";
-			catch (...) { std::cout << "Неизвестная ошибка" << std::endl; }
+
+	try {
+		if (checker.checkTriangleSides(3) == false) {
+			throw "Что - то не то со сторонами";
 		}
-		
+		if (checker.checkTriangleCorners(50, 60, 90) == false) {
+			throw "Что - то не то с углами";
+		}
+		Triangle triangle(3, "Треугольник: \n");
+		triangle.set_lenght_and_corners(10, 20, 30, 50, 60, 90);
+		triangle.print_info();
+	}
+	catch (const char* exception) {
+		std::cout << exception << std::endl;
 	}
 	
-	triangle.print_info();
 
+	
 	rightTriangle rightTriangle(3, "Прямоугольный треугольник:\n");
 	rightTriangle.set_lenght_and_corners(10, 20, 30, 50, 60, 90);
 	rightTriangle.print_info();
