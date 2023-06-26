@@ -1,8 +1,6 @@
 #include <iostream>
 #include <cmath>
 
-#include <iostream>
-
 int gcd(int a, int b) {
     if (b == 0)
         return a;
@@ -85,8 +83,8 @@ int main(int argc, char** argv)
     ComplexNumber multi_c_c = c1 * c2;
     ComplexNumber pre_multi_c_c = ++c1 * c2;
 
-    sum_c_c.Print(); // 5+3i
-    min_c_c.Print(); // 5+3i
+    sum_c_c.Print();
+    min_c_c.Print();
     multi_c_c.Print();
     divide_c_c.Print();
     pre_multi_c_c.Print();

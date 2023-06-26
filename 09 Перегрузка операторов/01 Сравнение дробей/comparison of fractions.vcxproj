@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{640e03f2-dc32-43d6-85fd-2b61582ce1b8}</ProjectGuid>
+    <ProjectGuid>{19b88398-876a-4fec-92ab-e9b8c4b5a883}</ProjectGuid>
     <RootNamespace>comparisonoffractions</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>

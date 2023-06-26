@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{ede59550-eb34-4f3e-a4f6-8d205241b8cc}</ProjectGuid>
-    <RootNamespace>Otheroperationswithfractions</RootNamespace>
+    <ProjectGuid>{6d23535f-2f19-4c97-b5ab-aeb01f04ae50}</ProjectGuid>
+    <RootNamespace>otheroperationswithfractions</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Other operations with fractions.cpp" />
+    <ClCompile Include="other operations with fractions.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
