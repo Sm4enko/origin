@@ -1,6 +1,10 @@
 #include "Quadrangle.h"
 
-Quadrangle::Quadrangle(int sides_count, std::string name) : Figure(sides_count, name) {}
+Quadrangle::Quadrangle(int sides_count, std::string name) : Figure(sides_count, name) {
+	if (sides_count != 4) {
+		throw "Количество сторон не равно 4";
+	}
+}
 
 void Quadrangle::setNumber(int num) {
 	sides_count = num;
@@ -19,6 +23,9 @@ void Quadrangle::set_lenght_and_corners(int aa, int bb, int cc, int dd, int ee, 
 	f = ff;
 	k = kk;
 	l = ll;
+	if (e + f + k + l != 360) {
+		throw "Условия не соблюдены";
+	}
 }
 
 int Quadrangle::get_a() {

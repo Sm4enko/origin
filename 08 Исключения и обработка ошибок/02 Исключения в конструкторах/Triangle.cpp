@@ -1,6 +1,10 @@
 #include "Triangle.h"
 
-Triangle::Triangle(int sides_count, std::string name) : Figure(sides_count, name) {}
+Triangle::Triangle(int sides_count, std::string name) : Figure(sides_count, name) {
+	if (sides_count != 3) {
+		throw "Количество сторон не равно 3";
+	}
+}
 
 void Triangle::setNumber(int num) {
 	sides_count = num;
@@ -17,6 +21,9 @@ void Triangle::set_lenght_and_corners(int aa, int bb, int cc, int dd, int ee, in
 	d = dd;
 	e = ee;
 	f = ff;
+	if (d + e + f != 180) {
+		throw "Условия не соблюдены";
+	}
 }
 
 int Triangle::get_a() {

@@ -1,1 +1,0 @@
-C:\Users\Sergey\Desktop\Code\08 Исключения и обработка ошибок\02 Исключения в конструкторах\Debug\ConsoleApplication2.exe
