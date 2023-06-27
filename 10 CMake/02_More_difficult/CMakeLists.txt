@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.22.0)
+
+project(02_More_difficult)
+
+add_executable(hello_cmake_MySource MySource.cpp)
+add_executable(hello_cmake_Figure Figure.cpp Figure.h)
+add_executable(hello_cmake_EquilateralTriangle equilateraltriangle.cpp equilateraltriangle.h)
+add_executable(hello_cmake_IsoscelesTriangle isoscelesTriangle.cpp isoscelesTriangle.h)
+add_executable(hello_cmake_Parallelogram Parallelogram.cpp Parallelogram.h)
+add_executable(hello_cmake_Quadrangle Quadrangle.cpp Quadrangle.h)
+add_executable(hello_cmake_Rectangle Rectangle.cpp Rectangle.h)
+add_executable(hello_cmake_Rhombus Rhombus.cpp Rhombus.h)
+add_executable(hello_cmake_RightTriangle rightTriangle.cpp rightTriangle.h)
+add_executable(hello_cmake_Square Square.cpp Square.h)
+add_executable(hello_cmake_Triangle Triangle.cpp Triangle.h)

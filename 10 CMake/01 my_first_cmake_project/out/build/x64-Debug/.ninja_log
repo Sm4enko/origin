@@ -1,0 +1,11 @@
+# ninja log v5
+3	757	7095540142283501	CMakeFiles/hello_cmake.dir/my_first_cmake_program.cpp.obj	3de85c25e074b2c7
+759	1439	7095540148543725	hello_cmake.exe	1d464148263cc907
+3	577	7095542268930203	CMakeFiles/hello_cmake.dir/my_first_cmake_program.cpp.obj	3de85c25e074b2c7
+578	1104	7095542273189459	hello_cmake.exe	1d464148263cc907
+3	482	7095542768558584	CMakeFiles/hello_cmake.dir/my_first_cmake_program.cpp.obj	3de85c25e074b2c7
+482	826	7095542771128783	hello_cmake.exe	1d464148263cc907
+3	507	7095542895752419	CMakeFiles/hello_cmake.dir/my_first_cmake_program.cpp.obj	3de85c25e074b2c7
+508	935	7095542899264998	hello_cmake.exe	1d464148263cc907
+3	889	7095543911313912	CMakeFiles/hello_cmake.dir/my_first_cmake_program.cpp.obj	3de85c25e074b2c7
+890	1259	7095543914220929	hello_cmake.exe	1d464148263cc907
