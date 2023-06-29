@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{6d23535f-2f19-4c97-b5ab-aeb01f04ae50}</ProjectGuid>
+    <ProjectGuid>{212f2f6c-a1e3-4449-abfd-8074a9d2aed5}</ProjectGuid>
     <RootNamespace>otheroperationswithfractions</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
