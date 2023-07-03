@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include "windows.h"
-#include "../N/Name.h"
+#include "../03 Cmake динамическая библиотека/Name.h"
 
 int main() {
     SetConsoleCP(1251);

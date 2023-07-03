@@ -1,15 +1,15 @@
 #include <iostream>
 #include <string>
-#include "../04 Иерархия классов в DLL, проекты VC++/Triangle.h"
-#include "../04 Иерархия классов в DLL, проекты VC++/Figure.h"
-#include "../04 Иерархия классов в DLL, проекты VC++/isoscelesTriangle.h"
-#include "../04 Иерархия классов в DLL, проекты VC++/Quadrangle.h"
-#include "../04 Иерархия классов в DLL, проекты VC++/rightTriangle.h"
-#include "../04 Иерархия классов в DLL, проекты VC++/Parallelogram.h"
-#include "../04 Иерархия классов в DLL, проекты VC++/equilateraltriangle.h"
-#include "../04 Иерархия классов в DLL, проекты VC++/Rectangle.h"
-#include "../04 Иерархия классов в DLL, проекты VC++/Rhombus.h"
-#include "../04 Иерархия классов в DLL, проекты VC++/Square.h"
+#include "../05 Иерархия классов в DLL и CMake/Triangle.h"
+#include "../05 Иерархия классов в DLL и CMake/Figure.h"
+#include "../05 Иерархия классов в DLL и CMake/isoscelesTriangle.h"
+#include "../05 Иерархия классов в DLL и CMake/Quadrangle.h"
+#include "../05 Иерархия классов в DLL и CMake/rightTriangle.h"
+#include "../05 Иерархия классов в DLL и CMake/Parallelogram.h"
+#include "../05 Иерархия классов в DLL и CMake/equilateraltriangle.h"
+#include "../05 Иерархия классов в DLL и CMake/Rectangle.h"
+#include "../05 Иерархия классов в DLL и CMake/Rhombus.h"
+#include "../05 Иерархия классов в DLL и CMake/Square.h"
 
 
 

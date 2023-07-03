@@ -1,6 +1,0 @@
-﻿  Name.cpp
-K:\Temp\dynamicLibrary\Name.cpp(6,19): warning C4273: 'WordStorage::setWord': inconsistent dll linkage
-K:\Temp\dynamicLibrary\Name.h(11,35): message : see previous definition of 'setWord'
-K:\Temp\dynamicLibrary\Name.cpp(10,19): warning C4273: 'WordStorage::printWord': inconsistent dll linkage
-K:\Temp\dynamicLibrary\Name.h(12,35): message : see previous definition of 'printWord'
-  dynamicLibrary.vcxproj -> K:\Temp\dynamicLibrary\x64\Debug\dynamicLibrary.dll

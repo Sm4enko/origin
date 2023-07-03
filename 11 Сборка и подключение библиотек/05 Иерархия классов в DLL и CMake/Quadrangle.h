@@ -1,9 +1,4 @@
 #pragma once
-#ifdef MATHPOWERLIBRARYDYNAMIC_EXPORTS
-#define MATHPOWERLIBRARY_API 
-#else
-#define MATHPOWERLIBRARY_API 
-#endif
 
 #include "Figure.h"
 
@@ -11,20 +6,20 @@ class Quadrangle : public Figure {
 protected:
 	int a, b, c, d, e, f, k, l;
 public:
-	MATHPOWERLIBRARY_API Quadrangle(int sides_count, std::string name);
+    Quadrangle(int sides_count, std::string name);
 
-	MATHPOWERLIBRARY_API void setNumber(int num);
-	MATHPOWERLIBRARY_API void setName(std::string n);
-	MATHPOWERLIBRARY_API void set_lenght_and_corners(int aa, int bb, int cc, int dd, int ee, int ff, int kk, int ll);
-	MATHPOWERLIBRARY_API int get_a();
-	MATHPOWERLIBRARY_API int get_b();
-	MATHPOWERLIBRARY_API int get_c();
-	MATHPOWERLIBRARY_API int get_d();
-	MATHPOWERLIBRARY_API int get_e();
-	MATHPOWERLIBRARY_API int get_f();
-	MATHPOWERLIBRARY_API int get_k();
-	MATHPOWERLIBRARY_API int get_l();
-	MATHPOWERLIBRARY_API void print_info();
+	void setNumber(int num);
+    void setName(std::string n);
+	void set_lenght_and_corners(int aa, int bb, int cc, int dd, int ee, int ff, int kk, int ll);
+	int get_a();
+	int get_b();
+	int get_c();
+	int get_d();
+	int get_e();
+	int get_f();
+	int get_k();
+	int get_l();
+	void print_info();
 };
 
 
