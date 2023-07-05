@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{0b2ecf35-1f18-4da8-967e-90f828a589f6}</ProjectGuid>
+    <ProjectGuid>{1f7c18bd-a58e-4786-b807-ea0f202811c7}</ProjectGuid>
     <RootNamespace>DLLVCprojects</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -130,8 +130,8 @@
     <ClCompile Include="DLL, VC++ projects.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\dynamicLibrary\dynamicLibrary.vcxproj">
-      <Project>{511a38cc-9583-42c2-9e9a-8c3c999987d4}</Project>
+    <ProjectReference Include="..\dinamicLibrary\dinamicLibrary.vcxproj">
+      <Project>{ed4499c7-6a80-4b31-a649-7af9ea81b1e1}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

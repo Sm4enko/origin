@@ -18,11 +18,35 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="equilateraltriangle.cpp" />
+    <ClCompile Include="Figure.cpp" />
+    <ClCompile Include="isoscelesTriangle.cpp" />
+    <ClCompile Include="Parallelogram.cpp" />
+    <ClCompile Include="Quadrangle.cpp" />
+    <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="Rhombus.cpp" />
+    <ClCompile Include="rightTriangle.cpp" />
+    <ClCompile Include="Square.cpp" />
+    <ClCompile Include="Triangle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="equilateraltriangle.h" />
+    <ClInclude Include="Figure.h" />
+    <ClInclude Include="isoscelesTriangle.h" />
+    <ClInclude Include="Parallelogram.h" />
+    <ClInclude Include="Quadrangle.h" />
+    <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="Rhombus.h" />
+    <ClInclude Include="rightTriangle.h" />
+    <ClInclude Include="Square.h" />
+    <ClInclude Include="Triangle.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{511a38cc-9583-42c2-9e9a-8c3c999987d4}</ProjectGuid>
-    <RootNamespace>dynamicLibrary</RootNamespace>
+    <ProjectGuid>{ed4499c7-6a80-4b31-a649-7af9ea81b1e1}</ProjectGuid>
+    <RootNamespace>dinamicLibrary</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -74,7 +98,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;DYNAMICLIBRARY_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DINAMICLIBRARY_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -89,7 +113,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;DYNAMICLIBRARY_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;DINAMICLIBRARY_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -104,7 +128,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;DYNAMICLIBRARY_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;DINAMICLIBRARY_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -119,7 +143,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;DYNAMICLIBRARY_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;DINAMICLIBRARY_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -130,30 +154,6 @@
       <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\equilateraltriangle.h" />
-    <ClInclude Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\Figure.h" />
-    <ClInclude Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\isoscelesTriangle.h" />
-    <ClInclude Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\Parallelogram.h" />
-    <ClInclude Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\Quadrangle.h" />
-    <ClInclude Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\Rectangle.h" />
-    <ClInclude Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\Rhombus.h" />
-    <ClInclude Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\rightTriangle.h" />
-    <ClInclude Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\Square.h" />
-    <ClInclude Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\Triangle.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\equilateraltriangle.cpp" />
-    <ClCompile Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\Figure.cpp" />
-    <ClCompile Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\isoscelesTriangle.cpp" />
-    <ClCompile Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\Parallelogram.cpp" />
-    <ClCompile Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\Quadrangle.cpp" />
-    <ClCompile Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\Rectangle.cpp" />
-    <ClCompile Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\Rhombus.cpp" />
-    <ClCompile Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\rightTriangle.cpp" />
-    <ClCompile Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\Square.cpp" />
-    <ClCompile Include="..\04 Иерархия классов в DLL, проекты VC++\dynamicLibrary\Triangle.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,15 +1,15 @@
 #include <iostream>
 #include <string>
-#include "../dynamicLibrary/Triangle.h"
-#include "../dynamicLibrary/Figure.h"
-#include "../dynamicLibrary/isoscelesTriangle.h"
-#include "../dynamicLibrary/Quadrangle.h"
-#include "../dynamicLibrary/rightTriangle.h"
-#include "../dynamicLibrary/Parallelogram.h"
-#include "../dynamicLibrary/equilateraltriangle.h"
-#include "../dynamicLibrary/Rectangle.h"
-#include "../dynamicLibrary/Rhombus.h"
-#include "../dynamicLibrary/Square.h"
+#include "../dinamicLibrary/Triangle.h"
+#include "../dinamicLibrary/Figure.h"
+#include "../dinamicLibrary/isoscelesTriangle.h"
+#include "../dinamicLibrary/Quadrangle.h"
+#include "../dinamicLibrary/rightTriangle.h"
+#include "../dinamicLibrary/Parallelogram.h"
+#include "../dinamicLibrary/equilateraltriangle.h"
+#include "../dinamicLibrary/Rectangle.h"
+#include "../dinamicLibrary/Rhombus.h"
+#include "../dinamicLibrary/Square.h"
 
 
 
