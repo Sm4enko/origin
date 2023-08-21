@@ -1,66 +1,72 @@
 #include<iostream>
 
-int COUNT = 0;
-
 class smart_array
 
 {
 
 private:
 
-	int* arr;
+    int* arr;
 
-	int N;
+    int N;
+    
+    int count;
 
 public:
 
-	smart_array(int n)
+    smart_array(const smart_array&) = delete;
+    smart_array& operator=(const smart_array&) = delete;
+    smart_array(int n, int& count)
 
-	{
+    {
 
-		N = n;
+        N = n;
 
-		arr = new int[N];
+        arr = new int[N];
+        
+        this->count = count;
 
-	}
+    }
 
-	~smart_array()
+    ~smart_array()
 
-	{
+    {
 
-		delete[]arr;
+        delete[]arr;
 
-	}
+    }
 
-	int getsize()
+    int getsize()
 
-	{
+    {
 
-		return N;
+        return N;
 
-	}
+    }
 
-	void get_element(int index)
+    int get_element(int index)
 
-	{
+    {
 
-		if (index >= 0 || index <= COUNT) {
+        if (index <= 0 || index >= count) {
 
-			std::cout << arr[index];
+            throw("Error");
+        }
+        return arr[index];
 
-		}
+    }
 
-	}
+    void add_element(int number)
 
-	void add_element(int number)
+    {
+        if (count < 0 || count > N) {
+            throw("Error");
+        }
+        arr[count] = number;
 
-	{
+        ++count;
 
-		arr[COUNT] = number;
-
-		++COUNT;
-
-	}
+    }
 
 };
 
@@ -68,48 +74,49 @@ int main()
 
 {
 
-	setlocale(LC_ALL, "Russian");
+    setlocale(LC_ALL, "Russian");
 
-	int n;
+    int n;
+    int count = 0;
 
-	std::cout << "������� ������ �������: ";
+    std::cout << "Ââåäèòå ðàçìåð ìàññèâà: ";
 
-	std::cin >> n;
+    std::cin >> n;
 
-	try {
+    try {
 
-		smart_array arr(n);
+        smart_array arr(n, count);
 
-		arr.add_element(1);
+        arr.add_element(1);
 
-		arr.add_element(4);
+        arr.add_element(4);
 
-		arr.add_element(155);
+        arr.add_element(155);
 
-		arr.add_element(14);
+        arr.add_element(14);
 
-		arr.add_element(15);
+        arr.add_element(15);
 
-		arr.get_element(1);
+        std::cout << arr.get_element(1);
 
-		std::cout << std::endl;
+        std::cout << std::endl;
 
-		if (COUNT > n) {
+        if (count > n) {
 
-			throw ("Error");
+            throw ("Error");
 
-		}
+        }
 
-	}
+    }
 
-	catch (const std::exception& ex) {
+    catch (const std::exception& ex) {
 
-		std::cout << ex.what() << std::endl;
+        std::cout << ex.what() << std::endl;
 
-	}
+    }
 
-	system("pause");
+    system("pause");
 
-	return 0;
+    return 0;
 
 }
