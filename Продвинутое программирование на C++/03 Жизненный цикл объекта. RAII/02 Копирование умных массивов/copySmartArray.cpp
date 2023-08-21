@@ -1,179 +1,374 @@
 #include<iostream>
 
-int COUNT = 0;
 
-int SIZE = 0;
 
 class smart_array
 
+
+
 {
+
 
 private:
 
-	int* arr;
 
-	int N;
+
+    int* arr;
+
+
+
+    int N;
+
+    
+
+    int count;
+
+
 
 public:
 
-	smart_array(int n)
+    smart_array(const smart_array&) = delete;
 
-	{
+    smart_array& operator=(const smart_array& other)
 
-		N = n;
+    {
+        if (this != &other)
 
-		arr = new int[N];
+        {
+            delete[] arr;
 
-	}
+            N = other.N;
 
-	~smart_array()
+            count = other.count;
 
-	{
+            arr = new int[N];
 
-		delete[]arr;
+            for (int i = 0; i < N; ++i)
 
-	}
+            {
+                arr[i] = other.arr[i];
 
-	int getsize()
+            }
 
-	{
+        }
 
-		return N;
+        return *this;
 
-	}
+    }
 
-	int get_element(int index)
+    
 
-	{
+    smart_array(int n, int& count)
 
-		if (index >= 0 && index <= SIZE) {
 
-			std::cout << arr[index];
 
-		}
+    {
 
-		else {
 
-			throw("Error");
+        N = n;
 
-		}
 
-		return index;
 
-	}
+        arr = new int[N];
 
-	int return_element(int index)
+        
 
-	{
+        this->count = count;
 
-		if (index >= 0 && index <= SIZE) {
+        
 
-		}
+       
 
-		else {
 
-			throw("Error");
 
-		}
+    }
 
-		return index;
 
-	}
 
-	void add_element(int number)
+    ~smart_array()
 
-	{
 
-		arr[COUNT] = number;
 
-		++COUNT;
+    {
 
-	}
+
+        delete[]arr;
+
+
+
+    }
+
+
+
+    int getsize()
+
+
+
+    {
+
+
+        return N;
+
+
+
+    }
+
+
+
+    int get_element(int index)
+
+
+
+    {
+
+
+        if (index < 0 && index > N) {
+
+
+            throw("Error");
+
+
+
+        }
+
+
+
+
+
+        return arr[index];
+
+
+
+    }
+
+
+
+    int return_element(int index)
+
+
+
+    {
+
+
+        if (index >= 0 && index <= N) {
+
+
+        }
+
+
+
+        else {
+
+
+            throw("Error");
+
+
+
+        }
+
+
+
+        return index;
+
+
+
+    }
+
+
+
+    void add_element(int number)
+
+
+
+    {
+        if (count < 0 || count >= N) {
+            throw("Error");
+
+        }
+
+        arr[count] = number;
+
+
+
+        ++count;
+
+
+
+    }
+
+
 
 };
 
+
+
 int main()
+
+
 
 {
 
-	setlocale(LC_ALL, "Russian");
 
-	int temp = 0;
+    setlocale(LC_ALL, "Russian");
 
-	std::cout << "������� ������ �������: ";
+    
 
-	std::cin >> SIZE;
+    int size;
 
-	try {
+    
 
-		smart_array arr(SIZE);
+    int count = 0;
 
-		arr.add_element(1);
 
-		arr.add_element(4);
 
-		arr.add_element(155);
+    int temp = 0;
 
-		arr.add_element(14);
 
-		arr.add_element(15);
 
-		arr.get_element(1);
+    std::cout << "Введите размер массива: ";
 
-		std::cout << std::endl;
 
-		if (COUNT > SIZE) {
 
-			throw ("Error");
+    std::cin >> size;
 
-		}
 
-		COUNT = 0;
 
-		std::cout << "������� ������ ������� 2: ";
+    try {
 
-		std::cin >> SIZE;
 
-		smart_array new_array(SIZE);
+        smart_array arr(size, count);
 
-		new_array.add_element(44);
 
-		new_array.add_element(34);
 
-		new_array.get_element(1);
+        arr.add_element(1);
 
-		if (COUNT > SIZE) {
 
-			throw ("Error");
 
-		}
+        arr.add_element(4);
 
-		COUNT = 0;
 
-		for (int i = 0; i < SIZE; ++i) {
 
-			temp = new_array.return_element(i);
+        arr.add_element(155);
 
-			arr.add_element(temp);
 
-		}
 
-		if (COUNT > SIZE) {
+        arr.add_element(14);
 
-			throw ("Error");
 
-		}
 
-	}
+        arr.add_element(15);
 
-	catch (const std::exception& ex) {
 
-		std::cout << ex.what() << std::endl;
 
-	}
+        std::cout << arr.get_element(1);
 
-	system("pause");
 
-	return 0;
+
+        std::cout << std::endl;
+
+
+
+        if (count > size) {
+
+
+            throw ("Error");
+
+
+
+        }
+
+
+
+        count = 0;
+
+
+
+        std::cout << "Введите размер массива: ";
+
+
+
+        std::cin >> size;
+
+
+
+        smart_array new_array(size, count);
+
+
+
+        new_array.add_element(44);
+
+
+
+        new_array.add_element(34);
+
+
+
+        std::cout << new_array.get_element(1);
+
+
+
+        if (count > size) {
+
+
+            throw ("Error");
+
+
+
+        }
+
+
+
+        count = 0;
+
+
+
+        for (int i = 0; i < size; ++i) {
+
+
+            temp = new_array.return_element(i);
+
+
+
+            arr.add_element(temp);
+
+
+
+        }
+
+
+
+        if (count > size) {
+
+
+            throw ("Error");
+
+
+
+        }
+
+
+
+    }
+
+
+
+    catch (const std::exception& ex) {
+
+
+        std::cout << ex.what() << std::endl;
+
+
+
+    }
+
+
+
+    system("pause");
+
+
+
+    return 0;
+
+
 
 }
