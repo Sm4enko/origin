@@ -5,17 +5,25 @@
 template <class T>
 T squaring(T a)
 {
+    int b = a * a;
     a *= a;
- return a;
+    std::cout << "[OUT] : " << b << std::endl;
+ return b;
 }
 
 template<typename T>
-std::vector<T> squaring(std::vector<T>& nums) {
-   
+std::vector<T> squaring(const std::vector<T> nums) {
+    
+    std::vector<int> b;
     for (size_t i = 0; i < nums.size(); ++i) {
-        nums[i] = nums[i] * nums[i];
+        b.push_back(nums[i] * nums[i]);
     }
-    return nums;
+    std::cout << "[OUT] : ";
+    for (int i : b) {
+        std::cout << i << ' ';
+    }
+    
+    return b;
 }
 
 int main(int argc, const char * argv[]) {
@@ -25,7 +33,7 @@ int main(int argc, const char * argv[]) {
     
     std::cout << "[IN] : ";
     std::cin >> num;
-    std::cout << "[OUT] : " << squaring(num) << std::endl;
+    squaring(num);
     std::cin.ignore();
     
     std::cout << "[IN] : ";
@@ -42,11 +50,6 @@ int main(int argc, const char * argv[]) {
     }
     nums.push_back(std::stoi(temp));
     squaring(nums);
-    std::cout << "[OUT] : ";
-    for (int i : nums) {
-        std::cout << i << ' ';
-    }
 }
-
 
 
