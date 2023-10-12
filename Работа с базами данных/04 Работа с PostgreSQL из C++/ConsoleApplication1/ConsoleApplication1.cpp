@@ -43,27 +43,10 @@ public:
 private:
     pqxx::connection* connection;
 
-    void exec(const std::string& sql, const pqxx::parameter_type& arg1 = pqxx::parameter_type(),
-        const pqxx::parameter_type& arg2 = pqxx::parameter_type(),
-        const pqxx::parameter_type& arg3 = pqxx::parameter_type(),
-        const pqxx::parameter_type& arg4 = pqxx::parameter_type(),
-        const pqxx::parameter_type& arg5 = pqxx::parameter_type()) {
-        pqxx::work txn(*connection);
-        txn.exec_prepared("stmt", arg1, arg2, arg3, arg4, arg5);
-        txn.commit();
-    }
+    exec("INSERT INTO people (first_name, last_name, phone_number, email) VALUES ($1, $2, $3, $4)", firstName, lastName, phoneNumber, email);
 
-    pqxx::result query(const std::string& sql, const pqxx::parameter_type& arg1 = pqxx::parameter_type(),
-        const pqxx::parameter_type& arg2 = pqxx::parameter_type(),
-        const pqxx::parameter_type& arg3 = pqxx::parameter_type(),
-        const pqxx::parameter_type& arg4 = pqxx::parameter_type(),
-        const pqxx::parameter_type& arg5 = pqxx::parameter_type()) {
-        pqxx::work txn(*connection);
-        pqxx::result result = txn.exec_prepared("stmt", arg1, arg2, arg3, arg4, arg5);
-        txn.commit();
-        return result;
-    }
-};
+    pqxx::result result = query("SELECT * FROM people WHERE first_name = $1 AND last_name = $2", firstName, lastName);
+
 
 int main() {
     TransactionBase db;
@@ -88,10 +71,10 @@ int main() {
 
     // Insert some data
     std::vector<std::string> email = { "123 Main St", "456 Elm St" };
-    db.insertData("John", "Doe", phoneNumber, sldfjl@dsjfl.dsjalfj);
+    db.insertData("John", "Doe", phoneNumber, "sldfjl@dsjfl.dsjalfj");
 
     // Update data
-    db.updateData(1, "Jane", "Doe", "+phoneNumber", jsdlfjl@gjalsdjfgls.coaf);
+    db.updateData(1, "Jane", "Doe", "+phoneNumber", "jsdlfjl@gjalsdjfgls.coaf");
 
     // Query data
     pqxx::result result = db.queryData("SELECT * FROM people");
