@@ -7,36 +7,23 @@ CREATE TABLE artists (
     artist_name VARCHAR(255) NOT NULL
 );
 
-INSERT INTO artists (artist_name) VALUES
-    ('Исполнитель 1'),
-    ('Исполнитель 2'),
-    ('Исполнитель 3'),
-    ('Исполнитель 4'),
-    ('Исполнитель 5');
-
 CREATE TABLE genres (
     genre_id SERIAL PRIMARY KEY,
     genre_name VARCHAR(255) NOT NULL
 );
 
-INSERT INTO genres (genre_name) VALUES
-    ('Попса'),
-    ('Рок'),
-    ('Классика');
-
 CREATE TABLE albums (
     album_id SERIAL PRIMARY KEY,
     album_name VARCHAR(255) NOT NULL,
-    artist_id INT REFERENCES artists(artist_id),
     genre_id INT REFERENCES genres(genre_id),
     release_date DATE
 );
 
-INSERT INTO albums (album_name, artist_id, genre_id, release_date) VALUES
-    ('Альбом 1', 1, 1, '2003-05-12'),
-    ('Альбом 2', 2, 2, '2004-09-20'),
-    ('Альбом 3', 3, 3, '2005-12-15'),
-    ('Альбом 4', 4, 1, '2006-03-08');
+CREATE TABLE album_artists (
+    album_id INT REFERENCES albums(album_id),
+    artist_id INT REFERENCES artists(artist_id),
+    PRIMARY KEY (album_id, artist_id)
+);
 
 CREATE TABLE tracks (
     track_id SERIAL PRIMARY KEY,
@@ -45,17 +32,41 @@ CREATE TABLE tracks (
     duration INTERVAL
 );
 
+CREATE TABLE compilations (
+    compilation_id SERIAL PRIMARY KEY,
+    compilation_name VARCHAR(255) NOT NULL
+);
+
+INSERT INTO artists (artist_name) VALUES
+    ('Исполнитель 1'),
+    ('Исполнитель 2'),
+    ('Исполнитель 3'),
+    ('Исполнитель 4'),
+    ('Исполнитель 5');
+
+INSERT INTO genres (genre_name) VALUES
+    ('Попса'),
+    ('Рок'),
+    ('Классика');
+
+INSERT INTO albums (album_name, genre_id, release_date) VALUES
+    ('Альбом 1', 1, '2003-05-12'),
+    ('Альбом 2', 2, '2004-09-20'),
+    ('Альбом 3', 3, '2005-12-15'),
+    ('Альбом 4', 4, '2006-03-08');
+
+INSERT INTO album_artists (album_id, artist_id) VALUES
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4);
+
 INSERT INTO tracks (track_name, album_id, duration) VALUES
     ('Трек 1', 1, '00:03:45'),
     ('Трек 2', 1, '00:04:20'),
     ('Трек 3', 2, '00:02:50'),
     ('Трек 4', 3, '00:05:15'),
     ('Трек 5', 3, '00:03:30');
-
-CREATE TABLE compilations (
-    compilation_id SERIAL PRIMARY KEY,
-    compilation_name VARCHAR(255) NOT NULL
-);
 
 INSERT INTO compilations (compilation_name) VALUES
     ('Сборник 1'),
