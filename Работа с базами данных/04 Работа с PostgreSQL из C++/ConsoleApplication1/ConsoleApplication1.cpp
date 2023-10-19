@@ -23,17 +23,17 @@ public:
         txn.commit();
     }
 
-    void insertData(const std::string& firstName, const std::string& lastName, const std::string& phoneNumber, const std::vector<std::string>& email) {
+    void insertData(const std::string& firstName, const std::string& lastName, const std::string& phoneNumber, const std::vector<std::string>& address) {
         pqxx::work txn(*connection);
         pqxx::result result = txn.prepared("stmt", "INSERT INTO people (first_name, last_name, phone_number, address) VALUES ($1, $2, $3, $4)")(
-            firstName)(lastName)(phoneNumber)(email);
+            firstName)(lastName)(phoneNumber)(address);
         txn.commit();
     }
 
-    void updateData(int id, const std::string& firstName, const std::string& lastName, const std::string& phoneNumber, const std::vector<std::string>& email) {
+    void updateData(int id, const std::string& firstName, const std::string& lastName, const std::string& phoneNumber, const std::vector<std::string>& address) {
         pqxx::work txn(*connection);
         pqxx::result result = txn.prepared("stmt", "UPDATE people SET first_name = $2, last_name = $3, phone_number = $4, address = $5 WHERE id = $1")(
-            id)(firstName)(lastName)(phoneNumber)(email);
+            id)(firstName)(lastName)(phoneNumber)(address);
         txn.commit();
     }
 
@@ -57,16 +57,16 @@ int main() {
 
     try {
         db.createTable();
-        std::vector<std::string> email = { "123 Main St", "456 Elm St" };
-        db.insertData("John", "Doe", "+phoneNumber", email);
-        db.updateData(1, "Jane", "Doe", "+phoneNumber", email);
+        std::vector<std::string> address = { "123 Main St", "456 Elm St" };
+        db.insertData("John", "Doe", "+phoneNumber", address);
+        db.updateData(1, "Jane", "Doe", "+phoneNumber", address);
 
         // Query data
         pqxx::result result = db.queryData("SELECT * FROM people");
-        for (const pqxx::tuple& row : result) {
-            std::cout << "ID: " << row["id"].as<int>() << ", First Name: " << row["first_name"].as<std::string>() <<
-                ", Last Name: " << row["last_name"].as<std::string>() << ", Phone Number: " << row["phone_number"].as<std::string>() <<
-                ", Address: " << row["address"].as<std::string>() << std::endl;
+        for (const pqxx::row& row : result) {
+            std::cout << "ID: " << row.at("id").as<int>() << ", First Name: " << row.at("first_name").as<std::string>() <<
+                ", Last Name: " << row.at("last_name").as<std::string>() << ", Phone Number: " << row.at("phone_number").as<std::string>() <<
+                ", Address: " << row.at("address").as<std::string>() << std::endl;
         }
         db.deleteData(1);
     }
