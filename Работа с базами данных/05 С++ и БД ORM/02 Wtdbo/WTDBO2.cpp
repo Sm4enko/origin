@@ -6,6 +6,16 @@
 
 namespace dbo = Wt::Dbo;
 
+class Publisher;
+
+class Book;
+
+class Store;
+
+class Inventory;
+
+class Sale;
+
 class Publisher {
 public:
     dbo::ptr<Publisher> self;
@@ -82,27 +92,27 @@ int main() {
     session.setConnection("postgresql://username:password@localhost/database");
 
     dbo::Transaction transaction(session);
-    dbo::createTables(session);
+    session.createTables();
     transaction.commit();
 
     dbo::Transaction transaction2(session);
 
-    dbo::ptr<Publisher> publisher = session.add(new Publisher());
+    dbo::ptr<Publisher> publisher = session.add(std::make_unique<Publisher>());
     publisher.modify()->name = "Издатель1";
 
-    dbo::ptr<Book> book = session.add(new Book());
+    dbo::ptr<Book> book = session.add(std::make_unique<Book>());
     book.modify()->title = "Книга1";
     book.modify()->publisher = publisher;
 
-    dbo::ptr<Store> store = session.add(new Store());
+    dbo::ptr<Store> store = session.add(std::make_unique<Store>());
     store.modify()->name = "Магазин1";
 
-    dbo::ptr<Inventory> inventory = session.add(new Inventory());
+    dbo::ptr<Inventory> inventory = session.add(std::make_unique<Inventory>());
     inventory.modify()->book = book;
     inventory.modify()->store = store;
     inventory.modify()->quantity = 10;
 
-    dbo::ptr<Sale> sale = session.add(new Sale());
+    dbo::ptr<Sale> sale = session.add(std::make_unique<Sale>());
     sale.modify()->book = book;
     sale.modify()->store = store;
     sale.modify()->sale_date = Wt::WDate::currentDate();
