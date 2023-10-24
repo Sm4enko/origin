@@ -25,21 +25,27 @@ public:
 
     void insertData(const std::string& firstName, const std::string& lastName, const std::string& phoneNumber, const std::vector<std::string>& address) {
         pqxx::work txn(*connection);
-        pqxx::result result = txn.prepared("stmt", "INSERT INTO people (first_name, last_name, phone_number, address) VALUES ($1, $2, $3, $4)")(
+        pqxx::prepare::invocation invoc = txn.prepared("stmt");
+        invoc("INSERT INTO people (first_name, last_name, phone_number, address) VALUES ($1, $2, $3, $4)",
             firstName)(lastName)(phoneNumber)(address);
+        invoc.exec();
         txn.commit();
     }
 
     void updateData(int id, const std::string& firstName, const std::string& lastName, const std::string& phoneNumber, const std::vector<std::string>& address) {
         pqxx::work txn(*connection);
-        pqxx::result result = txn.prepared("stmt", "UPDATE people SET first_name = $2, last_name = $3, phone_number = $4, address = $5 WHERE id = $1")(
+        pqxx::prepare::invocation invoc = txn.prepared("stmt");
+        invoc("UPDATE people SET first_name = $2, last_name = $3, phone_number = $4, address = $5 WHERE id = $1",
             id)(firstName)(lastName)(phoneNumber)(address);
+        invoc.exec();
         txn.commit();
     }
 
     void deleteData(int id) {
         pqxx::work txn(*connection);
-        pqxx::result result = txn.prepared("stmt", "DELETE FROM people WHERE id = $1")(id);
+        pqxx::prepare::invocation invoc = txn.prepared("stmt");
+        invoc("DELETE FROM people WHERE id = $1", id);
+        invoc.exec();
         txn.commit();
     }
 
