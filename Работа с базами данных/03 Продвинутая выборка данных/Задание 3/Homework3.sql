@@ -52,8 +52,12 @@ INSERT INTO genres (genre_name) VALUES
 INSERT INTO albums (album_name, genre_id, release_date) VALUES
     ('Альбом 1', 1, '2003-05-12'),
     ('Альбом 2', 2, '2004-09-20'),
-    ('Альбом 3', 3, '2005-12-15'),
-    ('Альбом 4', 4, '2006-03-08');
+    ('Альбом 3', 3, '2005-12-15');
+
+-- Исправленная часть с добавлением альбомов
+INSERT INTO albums (album_name, genre_id, release_date) VALUES
+    ('Альбом 4', 1, '2006-03-08');
+-- Конец исправленной части
 
 INSERT INTO album_artists (album_id, artist_id) VALUES
     (1, 1),
@@ -75,10 +79,10 @@ INSERT INTO compilations (compilation_name) VALUES
     ('Сборник 4'),
     ('Сборник 5');
 
-SELECT g.genre_name, COUNT(a.artist_id) AS artist_count
+SELECT g.genre_name, COUNT(aa.artist_id) AS artist_count
 FROM genres g
 LEFT JOIN albums al ON g.genre_id = al.genre_id
-LEFT JOIN artists a ON al.artist_id = a.artist_id
+LEFT JOIN album_artists aa ON al.album_id = aa.album_id
 GROUP BY g.genre_name;
 
 SELECT COUNT(t.track_id) AS track_count
@@ -93,7 +97,8 @@ GROUP BY al.album_name;
 
 SELECT a.artist_name
 FROM artists a
-LEFT JOIN albums al ON a.artist_id = al.artist_id AND al.release_date BETWEEN '2019-01-01' AND '2020-12-31'
+LEFT JOIN album_artists aa ON a.artist_id = aa.artist_id
+LEFT JOIN albums al ON aa.album_id = al.album_id AND al.release_date BETWEEN '2019-01-01' AND '2020-12-31'
 WHERE al.album_id IS NULL;
 
 SELECT DISTINCT c.compilation_name
