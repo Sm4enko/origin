@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{58f34e4d-1939-40ed-9cb3-be7690335f8b}</ProjectGuid>
-    <RootNamespace>Parallelcalculations</RootNamespace>
+    <ProjectGuid>{b8f5d4d5-91fb-489c-885f-5ce0b249b8ad}</ProjectGuid>
+    <RootNamespace>parallelcalculations</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Parallel calculations.cpp" />
+    <ClCompile Include="parallel calculations.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
