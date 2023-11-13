@@ -5,18 +5,20 @@
 
 class myMutex {
 private:
-    std::mutex mtx;
     std::mutex mtx1;
-    int a = 30, b= 50;
+    std::mutex mtx2;
+    int a = 30, b = 50;
 public:
     myMutex() : a(0), b(0) {}
 
     void Lock() {
-        mtx.lock();
+        mtx1.lock();
+        mtx2.lock();
     }
 
     void Unlock() {
-        mtx.unlock();
+        mtx1.unlock();
+        mtx2.unlock();
     }
 
     int GetData1() {
@@ -43,17 +45,17 @@ public:
     }
 
     void swap2(int value1, int value2) {
-        std::unique_lock<std::mutex> lock(mtx);
+        std::unique_lock<std::mutex> lock(mtx1);
         SetData1(value2);
         SetData2(value1);
     }
 
     void swap3(int value1, int value2) {
-    std::scoped_lock lock(mtx, mtx1); 
-    SetData1(value2);
-    SetData2(value1);
+        std::scoped_lock lock(mtx1, mtx2);
+        SetData1(value2);
+        SetData2(value1);
 
-}
+    }
 
 };
 

@@ -2,60 +2,83 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
+#include <vector>
 #include <iomanip>
+#include <string>
+#include <chrono>
 
 std::mutex mtx;
-std::atomic<int> progress1(0);
-std::atomic<int> progress2(0);
+std::vector<std::shared_ptr<std::atomic<int>>> progresses;
 
-void updateProgressBar(std::atomic<int>& progress, int total) {
-    while (progress < total) {
+void updateProgressBar(std::shared_ptr<std::atomic<int>> progress, int total) {
+    while (*progress < total) {
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
         {
             std::unique_lock<std::mutex> lock(mtx);
-            progress++;
+            (*progress)++;
         }
     }
 }
 
-void printProgressBar(std::atomic<int>& progress, int total, int line, std::mutex& mtx) {
-    while (progress < total) {
+void drawRowProgress(std::shared_ptr<std::atomic<int>> progress, int total, int line, std::mutex& mtx) {
+    auto start_time = std::chrono::steady_clock::now();
+    while (*progress < total) {
+        
+        
         int barWidth = 50;
-        int pos = (progress * barWidth) / total;
+        int pos = (*progress * barWidth) / total;
 
-        std::string progressBar = "Progress " + std::to_string(line) + ": [";
+        std::string progressBar = "Progress " + std::to_string(line) + ": ";
         for (int i = 0; i < barWidth; ++i) {
+            for (int k = 0; k < 1000000; ++k) {
+
+            }
             if (i < pos) {
                 progressBar += "#";
             }
             else {
-                progressBar += "-";
+                progressBar += ' ';
             }
         }
 
-        progressBar += "] " + std::to_string((progress * 100) / total) + "%";
+        progressBar += " ";
 
         std::unique_lock<std::mutex> lock(mtx);
+        
         std::cout << "\033[" << line << ";0H";
-        std::cout << progressBar << std::flush;
+        std::cout << std::this_thread::get_id() << ' ' << progressBar << std::flush;
     }
+    auto end_time = std::chrono::steady_clock::now();
+    auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+    std::cout << elapsed_time.count() << "ms";
+   
 }
 
 int main() {
+    setlocale(LC_ALL, "Russian");
     int total = 50;
+    int numThreads;
 
-    std::thread thread1(updateProgressBar, std::ref(progress1), total);
-    std::thread thread2(updateProgressBar, std::ref(progress2), total);
+    std::cout << "Введите количество потоков: ";
+    std::cin >> numThreads;
 
-    std::thread printThread1(printProgressBar, std::ref(progress1), total, 1, std::ref(mtx));
-    std::thread printThread2(printProgressBar, std::ref(progress2), total, 2, std::ref(mtx));
+    progresses.resize(numThreads);
 
-    thread1.join();
-    thread2.join();
-    printThread1.join();
-    printThread2.join();
+    std::vector<std::thread> threads;
+    std::vector<std::thread> printThreads;
 
-    std::cout << "\033[3;0H";
+    for (int i = 0; i < numThreads; ++i) {
+        progresses[i] = std::make_shared<std::atomic<int>>(0);
+        threads.emplace_back(updateProgressBar, progresses[i], total);
+        printThreads.emplace_back(drawRowProgress, progresses[i], total, i + 1, std::ref(mtx));
+    }
+
+    for (int i = 0; i < numThreads; ++i) {
+        threads[i].join();
+        printThreads[i].join();
+    }
+
+    std::cout << "\033[" << numThreads + 1 << ";0H";
 
     return 0;
 }

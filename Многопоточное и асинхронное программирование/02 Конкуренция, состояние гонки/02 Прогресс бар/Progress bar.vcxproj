@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{a0b38169-2bad-4008-822b-0645bc53edfd}</ProjectGuid>
+    <ProjectGuid>{4ef4add4-0a89-437c-b87f-e5720c952912}</ProjectGuid>
     <RootNamespace>Progressbar</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
