@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <pqxx/pqxx>
+#include <vector>
 
 class TransactionBase {
 public:
@@ -69,10 +70,10 @@ int main() {
 
         // Query data
         pqxx::result result = db.queryData("SELECT * FROM people");
-        for (const pqxx::row& row : result) {
-            std::cout << "ID: " << row.at("id").as<int>() << ", First Name: " << row.at("first_name").as<std::string>() <<
-                ", Last Name: " << row.at("last_name").as<std::string>() << ", Phone Number: " << row.at("phone_number").as<std::string>() <<
-                ", Address: " << row.at("address").as<std::string>() << std::endl;
+        for (const pqxx::tuple& row : result) {
+            std::cout << "ID: " << row[0].as<int>() << ", First Name: " << row[1].as<std::string>() <<
+                ", Last Name: " << row[2].as<std::string>() << ", Phone Number: " << row[3].as<std::string>() <<
+                ", Address: " << row[4].as<std::string>() << std::endl;
         }
         db.deleteData(1);
     }
@@ -83,3 +84,5 @@ int main() {
 
     return 0;
 }
+
+
