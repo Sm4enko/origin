@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d9d3e0c7-2452-4809-9747-f4b166a67b01}</ProjectGuid>
-    <RootNamespace>ConsoleApplication4</RootNamespace>
+    <ProjectGuid>{7250cbe8-c832-4484-979a-8ed06a11325a}</ProjectGuid>
+    <RootNamespace>sortingBySelection</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ConsoleApplication4.cpp" />
+    <ClCompile Include="sortingBySelection.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
