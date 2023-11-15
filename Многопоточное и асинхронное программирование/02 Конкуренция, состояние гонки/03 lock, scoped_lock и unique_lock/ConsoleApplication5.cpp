@@ -8,6 +8,7 @@ private:
     std::mutex mtx1;
     std::mutex mtx2;
     int a = 30, b = 50;
+
 public:
     myMutex() : a(0), b(0) {}
 
@@ -51,36 +52,37 @@ public:
     }
 
     void swap3(int value1, int value2) {
-        std::scoped_lock lock(mtx1, mtx2);
+        std::lock(mtx1, mtx2);
+        std::unique_lock<std::mutex> lock1(mtx1, std::adopt_lock);
+        std::unique_lock<std::mutex> lock2(mtx2, std::adopt_lock);
         SetData1(value2);
         SetData2(value1);
-
     }
 
 };
 
 int main() {
     setlocale(LC_ALL, "Russian");
-    myMutex myMutex;
+    myMutex myMutexObject;
 
-    std::thread t1([&myMutex]() {
-        int a = 42, b = 10;
-        myMutex.swap(a, b);
-        std::cout << "Первый поток: " << myMutex.GetData1() << ", " << myMutex.GetData2() << std::endl;
+    std::thread t1([&myMutexObject]() {
+        int value1 = 42, value2 = 10;
+        myMutexObject.swap(value1, value2);
+        std::cout << "Первый поток: " << myMutexObject.GetData1() << ", " << myMutexObject.GetData2() << std::endl;
         });
 
-    std::thread t2([&myMutex]() {
-        int a = myMutex.GetData1();
-        int b = myMutex.GetData2();
-        myMutex.swap2(a, b);
-        std::cout << "Второй поток: " << myMutex.GetData1() << ", " << myMutex.GetData2() << std::endl;
+    std::thread t2([&myMutexObject]() {
+        int value1 = myMutexObject.GetData1();
+        int value2 = myMutexObject.GetData2();
+        myMutexObject.swap2(value1, value2);
+        std::cout << "Второй поток: " << myMutexObject.GetData1() << ", " << myMutexObject.GetData2() << std::endl;
         });
 
-    std::thread t3([&myMutex]() {
-        int a = myMutex.GetData1();
-        int b = myMutex.GetData2();
-        myMutex.swap3(a, b);
-        std::cout << "Третий поток: " << myMutex.GetData1() << ", " << myMutex.GetData2() << std::endl;
+    std::thread t3([&myMutexObject]() {
+        int value1 = myMutexObject.GetData1();
+        int value2 = myMutexObject.GetData2();
+        myMutexObject.swap3(value1, value2);
+        std::cout << "Третий поток: " << myMutexObject.GetData1() << ", " << myMutexObject.GetData2() << std::endl;
         });
 
     t1.join();
