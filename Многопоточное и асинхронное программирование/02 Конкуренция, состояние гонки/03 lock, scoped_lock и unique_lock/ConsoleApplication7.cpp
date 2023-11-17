@@ -40,24 +40,24 @@ public:
     }
 
     void swap(T value1, T value2) {
-        Lock();
+        std::lock(mtx1, mtx2);
+        std::lock_guard<std::mutex> lock1(mtx1, std::adopt_lock);
+        std::lock_guard<std::mutex> lock2(mtx2, std::adopt_lock);
+
         SetData1(value2);
         SetData2(value1);
-        Unlock();
     }
 
     void swap2(T value1, T value2) {
         std::lock(mtx1, mtx2);
-        std::lock_guard<std::mutex> lock1(mtx1, std::adopt_lock);
-        std::lock_guard<std::mutex> lock2(mtx2, std::adopt_lock);
+        std::unique_lock<std::mutex> lock1(mtx1, std::adopt_lock);
+        std::unique_lock<std::mutex> lock2(mtx2, std::adopt_lock);
         SetData1(value2);
         SetData2(value1);
     }
 
     void swap3(T value1, T value2) {
-        std::lock(mtx1, mtx2);
-        std::unique_lock<std::mutex> lock1(mtx1, std::adopt_lock);
-        std::unique_lock<std::mutex> lock2(mtx2, std::adopt_lock);
+        std::scoped_lock lock(mtx1, mtx2);
         SetData1(value2);
         SetData2(value1);
     }
