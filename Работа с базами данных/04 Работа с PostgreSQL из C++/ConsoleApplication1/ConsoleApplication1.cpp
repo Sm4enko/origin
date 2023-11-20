@@ -2,6 +2,27 @@
 #include <pqxx/pqxx>
 #include <vector>
 
+namespace pqxx {
+namespace prepare {
+    class invocation {
+    public:
+       
+    };
+}
+}
+
+// Добавляем член "prepared" в класс pqxx::transaction<pqxx::read_committed, pqxx::write_policy::read_write>
+template <>
+class pqxx::transaction<pqxx::read_committed, pqxx::write_policy::read_write>::implementation {
+public:
+   
+    pqxx::prepare::invocation prepared(const std::string& name) {
+        return pqxx::prepare::invocation{*this, name};
+    }
+
+   
+};
+
 class TransactionBase {
 public:
     TransactionBase() {
@@ -68,7 +89,6 @@ int main() {
         db.insertData("John", "Doe", "+phoneNumber", address);
         db.updateData(1, "Jane", "Doe", "+phoneNumber", address);
 
-        // Query data
         pqxx::result result = db.queryData("SELECT * FROM people");
         for (const pqxx::tuple& row : result) {
             std::cout << "ID: " << row[0].as<int>() << ", First Name: " << row[1].as<std::string>() <<
@@ -84,5 +104,3 @@ int main() {
 
     return 0;
 }
-
-
