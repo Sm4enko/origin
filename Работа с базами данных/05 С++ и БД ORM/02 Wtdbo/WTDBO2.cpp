@@ -22,6 +22,8 @@ public:
     dbo::collection<dbo::ptr<Book>> books;
     std::string name;
 
+    Publisher() : books(*this) {}
+
     template<class Action>
     void persist(Action& a) {
         dbo::field(a, name, "name");
@@ -131,7 +133,8 @@ int main() {
         for (dbo::ptr<Book> book : requestedPublisher.get()->books) {
             std::cout << " - " << book.get()->title << std::endl;
         }
-    } else {
+    }
+    else {
         std::cout << "Издатель не найден." << std::endl;
     }
     transaction3.commit();
