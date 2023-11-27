@@ -4,24 +4,30 @@
 
 namespace pqxx {
 namespace prepare {
-    class invocation {
-    public:
-       
-    };
-}
-}
-
-// Добавляем член "prepared" в класс pqxx::transaction<pqxx::read_committed, pqxx::write_policy::read_write>
-template <>
-class pqxx::transaction<pqxx::read_committed, pqxx::write_policy::read_write>::implementation {
+class invocation {
 public:
-   
-    pqxx::prepare::invocation prepared(const std::string& name) {
-        return pqxx::prepare::invocation{*this, name};
+    invocation(pqxx::transaction_base& t, const std::string& name) : trans(t), stmt_name(name) {}
+
+    pqxx::result exec() {
+        return trans.exec_prepared(stmt_name);
     }
 
-   
+private:
+    pqxx::transaction_base& trans;
+    std::string stmt_name;
 };
+} 
+} 
+
+namespace pqxx {
+template <>
+class transaction_base<pqxx::read_committed, pqxx::write_policy::read_write>::implementation {
+public:
+    pqxx::prepare::invocation prepared(const std::string& name) {
+        return pqxx::prepare::invocation(*this, name);
+    }
+};
+} 
 
 class TransactionBase {
 public:
@@ -35,11 +41,11 @@ public:
 
     void createTable() {
         std::string sql = "CREATE TABLE IF NOT EXISTS people ("
-            "id serial PRIMARY KEY, "
-            "first_name VARCHAR(50), "
-            "last_name VARCHAR(50), "
-            "phone_number VARCHAR(20), "
-            "address TEXT[])";
+                           "id serial PRIMARY KEY, "
+                           "first_name VARCHAR(50), "
+                           "last_name VARCHAR(50), "
+                           "phone_number VARCHAR(20), "
+                           "address TEXT[])";
         pqxx::work txn(*connection);
         txn.exec(sql);
         txn.commit();
@@ -48,26 +54,21 @@ public:
     void insertData(const std::string& firstName, const std::string& lastName, const std::string& phoneNumber, const std::vector<std::string>& address) {
         pqxx::work txn(*connection);
         pqxx::prepare::invocation invoc = txn.prepared("stmt");
-        invoc("INSERT INTO people (first_name, last_name, phone_number, address) VALUES ($1, $2, $3, $4)",
-            firstName)(lastName)(phoneNumber)(address);
-        invoc.exec();
+        invoc.exec_params(firstName, lastName, phoneNumber, address);
         txn.commit();
     }
 
     void updateData(int id, const std::string& firstName, const std::string& lastName, const std::string& phoneNumber, const std::vector<std::string>& address) {
         pqxx::work txn(*connection);
         pqxx::prepare::invocation invoc = txn.prepared("stmt");
-        invoc("UPDATE people SET first_name = $2, last_name = $3, phone_number = $4, address = $5 WHERE id = $1",
-            id)(firstName)(lastName)(phoneNumber)(address);
-        invoc.exec();
+        invoc.exec_params(id, firstName, lastName, phoneNumber, address);
         txn.commit();
     }
 
     void deleteData(int id) {
         pqxx::work txn(*connection);
         pqxx::prepare::invocation invoc = txn.prepared("stmt");
-        invoc("DELETE FROM people WHERE id = $1", id);
-        invoc.exec();
+        invoc.exec_params(id);
         txn.commit();
     }
 
@@ -85,7 +86,7 @@ int main() {
 
     try {
         db.createTable();
-        std::vector<std::string> address = { "123 Main St", "456 Elm St" };
+        std::vector<std::string> address = {"123 Main St", "456 Elm St"};
         db.insertData("John", "Doe", "+phoneNumber", address);
         db.updateData(1, "Jane", "Doe", "+phoneNumber", address);
 
@@ -96,8 +97,7 @@ int main() {
                 ", Address: " << row[4].as<std::string>() << std::endl;
         }
         db.deleteData(1);
-    }
-    catch (const std::exception& e) {
+    } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
         return 1;
     }
