@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34202.233
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Growing templates", "Growing templates.vcxproj", "{C11A75C9-AF06-40D7-BF69-598E244F6945}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C11A75C9-AF06-40D7-BF69-598E244F6945}.Debug|x64.ActiveCfg = Debug|x64
+		{C11A75C9-AF06-40D7-BF69-598E244F6945}.Debug|x64.Build.0 = Debug|x64
+		{C11A75C9-AF06-40D7-BF69-598E244F6945}.Debug|x86.ActiveCfg = Debug|Win32
+		{C11A75C9-AF06-40D7-BF69-598E244F6945}.Debug|x86.Build.0 = Debug|Win32
+		{C11A75C9-AF06-40D7-BF69-598E244F6945}.Release|x64.ActiveCfg = Release|x64
+		{C11A75C9-AF06-40D7-BF69-598E244F6945}.Release|x64.Build.0 = Release|x64
+		{C11A75C9-AF06-40D7-BF69-598E244F6945}.Release|x86.ActiveCfg = Release|Win32
+		{C11A75C9-AF06-40D7-BF69-598E244F6945}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED3D0C41-F205-4107-AA62-AC41A980EAF7}
+	EndGlobalSection
+EndGlobal
