@@ -21,16 +21,16 @@ public:
 class Stock;
 
 class Book {
-     public:
-		 std::string title;
-		 Wt::Dbo::ptr<Publisher>> publisher;
-		 Wt::Dbo::collection<Wt::Dbo::ptr<Stock>> stocks;
-		 template <typename Action>
-		 void persist(Action& a) {
-			 Wt::Dbo:field(a, name, "title");
-			 Wt::Dbo::belongsTo(a, publisher, "publisher");
-			 Wt::Dbo::hasMany(a, stocks, Wt::Dbo::ManyToOne, "book");
-		 }
+public:
+	std::string title;
+	Wt::Dbo::ptr<Publisher >> publisher;
+	Wt::Dbo::collection<Wt::Dbo::ptr<Stock>> stocks;
+	template <typename Action>
+	void persist(Action& a) {
+		Wt::Dbo:field(a, name, "title");
+		Wt::Dbo::belongsTo(a, publisher, "publisher");
+		Wt::Dbo::hasMany(a, stocks, Wt::Dbo::ManyToOne, "book");
+	}
 
 };
 
@@ -93,43 +93,43 @@ int main()
 		session.mapClass<Shop>("shop");
 		session.mapClass<Stock>("stock");
 		session.mapClass<Sale>("sale");
-	
 
-	
 
-	try {
-		//session.dropTables();
-		session.createTables();
-	}
-	catch (const std::exception& e) {
-		std::cout << "Create error" << e.what() << std::endl;
-	}
-	Wt::Dbo::Transcaction transaction(session);
-	
 
-	auto p1db = session.add<Publisher>(new Publisher{ "Eksmo" }); 
 
-	std::unique_ptr<Book> p1(new Book{ "Bird" });
-	auto b1db = session.add<Book>(std::move(b1));
+		try {
+			//session.dropTables();
+			session.createTables();
+		}
+		catch (const std::exception& e) {
+			std::cout << "Create error" << e.what() << std::endl;
+		}
+		Wt::Dbo::Transcaction transaction(session);
 
-	b1db.modify()->publisher = p1db;
 
-	transaction.commit();
+		auto p1db = session.add<Publisher>(new Publisher{ "Eksmo" });
 
-	std::cout << "Enter book name: ";
+		std::unique_ptr<Book> p1(new Book{ "Bird" });
+		auto b1db = session.add<Book>(std::move(b1));
 
-	std::string str;
-	std::getline(std::cin, str);
+		b1db.modify()->publisher = p1db;
 
-	Wt::Dbo::Transcaction transaction2(session);
+		transaction.commit();
 
-	Wt::Dbo::collection<Wt::Dbo::ptr<Book>> books = session.find<Book>().where"title=?").bind(str);
+		std::cout << "Enter book name: ";
 
-	for (auto& book : books) {
-		std::string publisher = book->publisher->name;
-		std::cout << "Publisher is: " << publisher << std::endl;
-	}
-	transaction2.commit();
+		std::string str;
+		std::getline(std::cin, str);
+
+		Wt::Dbo::Transcaction transaction2(session);
+
+		Wt::Dbo::collection<Wt::Dbo::ptr<Book>> books = session.find<Book>().where"title=?").bind(str);
+
+		for (auto& book : books) {
+			std::string publisher = book->publisher->name;
+			std::cout << "Publisher is: " << publisher << std::endl;
+		}
+		transaction2.commit();
 	}
 
 	catch (const std::exception& e) {
