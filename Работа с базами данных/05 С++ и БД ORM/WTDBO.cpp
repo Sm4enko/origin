@@ -104,7 +104,7 @@ int main()
 		catch (const std::exception& e) {
 			std::cout << "Create error" << e.what() << std::endl;
 		}
-		Wt::Dbo::Transcaction transaction(session);
+		Wt::Dbo::Transaction transaction(session);
 
 
 		auto p1db = session.add<Publisher>(new Publisher{ "Eksmo" });
@@ -121,9 +121,9 @@ int main()
 		std::string str;
 		std::getline(std::cin, str);
 
-		Wt::Dbo::Transcaction transaction2(session);
+		Wt::Dbo::Transaction transaction2(session);
 
-		Wt::Dbo::collection<Wt::Dbo::ptr<Book>> books = session.find<Book>().where"title=?").bind(str);
+		Wt::Dbo::collection<Wt::Dbo::ptr<Book>> books = session.find<Book>().where"title=?".bind(str);
 
 		for (auto& book : books) {
 			std::string publisher = book->publisher->name;
