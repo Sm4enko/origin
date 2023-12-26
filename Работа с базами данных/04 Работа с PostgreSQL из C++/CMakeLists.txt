@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(MyProject1)
 add_executable(MyProject1 ConsoleApplication1.cpp)
-add_subdirectory("K:\\Temp\\04 Работа с PostgreSQL из C++\ConsoleApplication1\\libpqxx-7.8.1" build-libpqxx) 
+add_subdirectory("C:\Temp\04 Работа с PostgreSQL из C++\ConsoleApplication1\libpqxx-7.8.0" build-libpqxx) 
 target_compile_features(MyProject1 PRIVATE cxx_std_17) 
 target_link_libraries(MyProject1 pqxx) 
