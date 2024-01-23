@@ -1,57 +1,40 @@
 #include "stopwatch.h"
 
-Stopwatch::Stopwatch(QObject *parent) : QObject(parent), elapsedMilliseconds(0), running(false) {
-    // Initialize the timer and connect its timeout signal
+Stopwatch::Stopwatch(QObject *parent) : QObject(parent), elapsedTime(0), lapCount(0), isRunning(false) {
     timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &Stopwatch::handleTimeout);
+    connect(timer, SIGNAL(timeout()), this, SLOT(onTimeout()));
 }
 
-void Stopwatch::start() {
-    if (!running) {
-        startTime = QTime::currentTime();
-        running = true;
-        emit update();
-        // Start the timer when the stopwatch starts
-        timer->start(100);
-    }
-}
-
-void Stopwatch::stop() {
-    if (running) {
-        elapsedMilliseconds += startTime.msecsTo(QTime::currentTime());
-        running = false;
-        // Stop the timer when the stopwatch stops
+void Stopwatch::startStop() {
+    if (isRunning) {
         timer->stop();
+        isRunning = false;
+        emit timeUpdated(elapsedTime);
+    } else {
+        timer->start(1000);
+        isRunning = true;
+    }
+    emit startStopChanged(isRunning);
+}
+
+void Stopwatch::lap() {
+    if (isRunning) {
+        lapCount++;
+        emit lapTimeUpdated(lapCount, elapsedTime);
     }
 }
 
 void Stopwatch::reset() {
-    elapsedMilliseconds = 0;
-    if (running) {
-        startTime = QTime::currentTime();
-    }
-    emit update();
+    timer->stop();
+    elapsedTime = 0;
+    lapCount = 0;
+    isRunning = false;
+    emit timeUpdated(elapsedTime);
+    emit startStopChanged(isRunning);
+    emit lapTimeCleared();
 }
 
-QString Stopwatch::formattedTime() const {
-    int totalSeconds = elapsedMilliseconds / 1000;
-    QTime time(0, totalSeconds / 60, totalSeconds % 60);
-    return time.toString("hh:mm:ss");
-}
-
-int Stopwatch::elapsedTime() const {
-    return elapsedMilliseconds / 1000;
-}
-
-bool Stopwatch::isRunning() const {
-    return running;
-}
-
-void Stopwatch::update() {
-    emit update();
-}
-
-void Stopwatch::handleTimeout() {
-    // Handle the timeout of the QTimer
-    emit update();
+void Stopwatch::onTimeout() {
+    elapsedTime++;
+    emit timeUpdated(elapsedTime);
 }
