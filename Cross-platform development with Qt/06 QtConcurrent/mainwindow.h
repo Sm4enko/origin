@@ -17,11 +17,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void StartRace( void );
-
+    void StartRace(void);
 
 private slots:
-
     void on_pb_start_clicked();
 
 private:
@@ -34,24 +32,6 @@ private:
 
     ExampleRace *concurRace1;
     ExampleRace *concurRace2;
-
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif // MAINWINDOW_H

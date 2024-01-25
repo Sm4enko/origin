@@ -66,10 +66,8 @@ void MainWindow::StartRace(void)
     countFinish = 0;
     number = 0;
 
-    // Create a QFutureWatcher to monitor the completion of the Qt Concurrent tasks
     QFutureWatcher<void> watcher;
 
-    // Connect the finished signal to a lambda function
     connect(&watcher, &QFutureWatcher<void>::finished, this, [&]() {
         countFinish++;
         if (countFinish == 2) {
@@ -79,25 +77,22 @@ void MainWindow::StartRace(void)
         }
     });
 
-    // Use Qt Concurrent to run the tasks in parallel
     int numIterations = ui->sb_initNum->value();
+    QFuture<void> future1, future2;
+
     if (ui->rb_mutexOn->isChecked()) {
-        // With mutex
         auto function1 = std::bind(&ExampleRace::DoWork, concurRace1, &number, true, numIterations);
         auto function2 = std::bind(&ExampleRace::DoWork, concurRace2, &number, true, numIterations);
-        QFuture<void> future1 = QtConcurrent::run(std::move(function1));
-        QFuture<void> future2 = QtConcurrent::run(std::move(function2));
-        watcher.setFuture(future1);
-        watcher.setFuture(future2);
+        future1 = QtConcurrent::run(std::move(function1));
+        future2 = QtConcurrent::run(std::move(function2));
     } else {
-        // Without mutex
         auto function1 = std::bind(&ExampleRace::DoWork, concurRace1, &number, false, numIterations);
         auto function2 = std::bind(&ExampleRace::DoWork, concurRace2, &number, false, numIterations);
-        QFuture<void> future1 = QtConcurrent::run(std::move(function1));
-        QFuture<void> future2 = QtConcurrent::run(std::move(function2));
-        watcher.setFuture(future1);
-        watcher.setFuture(future2);
+        future1 = QtConcurrent::run(std::move(function1));
+        future2 = QtConcurrent::run(std::move(function2));
     }
+
+    watcher.setFuture(future2);  // Устанавливаем watcher для последней задачи в цепочке
 }
 
 void MainWindow::on_pb_start_clicked()

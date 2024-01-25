@@ -23,6 +23,8 @@ set(PROJECT_SOURCES
 qt_add_executable(Concurrent
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
+    ExampleRace.cpp
+    ExampleRace.h
 )
 
 target_link_libraries(Concurrent PRIVATE
