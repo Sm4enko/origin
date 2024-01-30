@@ -1,11 +1,13 @@
 #include <QApplication>
-#include "mainwindow.h"
+#include "stopwatch.h"
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
 
-    MainWindow mainWindow;
-    mainWindow.show();
+    TimerApp timerApp;
+    timerApp.setWindowTitle("Таймер с кругами");
+    timerApp.resize(400, 300);
+    timerApp.show();
 
-    return a.exec();
+    return app.exec();
 }

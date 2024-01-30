@@ -1,40 +1,88 @@
 #include "stopwatch.h"
 
-Stopwatch::Stopwatch(QObject *parent) : QObject(parent), elapsedTime(0), lapCount(0), isRunning(false) {
+TimerApp::TimerApp(QWidget *parent) : QWidget(parent) {
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(onTimeout()));
+    connect(timer, &QTimer::timeout, this, &TimerApp::updateTime);
+
+    QLabel *timeTextLabel = new QLabel("Время:", this);
+    timeTextLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+
+    QLabel *timerLabel = new QLabel("0.0", this);
+    timerLabel->setAlignment(Qt::AlignCenter);
+    timeLabel = timerLabel;
+
+    QHBoxLayout *timeLayout = new QHBoxLayout;
+    timeLayout->addWidget(timeTextLabel);
+    timeLayout->addWidget(timerLabel);
+
+    startStopButton = new QPushButton("Старт", this);
+    connect(startStopButton, &QPushButton::clicked, this, &TimerApp::startStopTimer);
+
+    lapButton = new QPushButton("Круг", this);
+    lapButton->setEnabled(false);
+    connect(lapButton, &QPushButton::clicked, this, &TimerApp::lapTime);
+
+    clearButton = new QPushButton("Очистить", this);
+    connect(clearButton, &QPushButton::clicked, this, &TimerApp::clearTime);
+
+    textBrowser = new QTextBrowser(this);
+
+    QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->addLayout(timeLayout);
+    layout->addWidget(startStopButton);
+    layout->addWidget(lapButton);
+    layout->addWidget(clearButton);
+    layout->addWidget(textBrowser);
+
+    setLayout(layout);
+
+    resetValues();
 }
 
-void Stopwatch::startStop() {
-    if (isRunning) {
-        timer->stop();
-        isRunning = false;
-        emit timeUpdated(elapsedTime);
+void TimerApp::startStopTimer() {
+    if (!timer->isActive()) {
+        startStopButton->setText("Стоп");
+        lapButton->setEnabled(true);
+        timer->start(100);
     } else {
-        timer->start(1000);
-        isRunning = true;
-    }
-    emit startStopChanged(isRunning);
-}
-
-void Stopwatch::lap() {
-    if (isRunning) {
-        lapCount++;
-        emit lapTimeUpdated(lapCount, elapsedTime);
+        startStopButton->setText("Старт");
+        lapButton->setEnabled(false);
+        timer->stop();
     }
 }
 
-void Stopwatch::reset() {
-    timer->stop();
-    elapsedTime = 0;
-    lapCount = 0;
-    isRunning = false;
-    emit timeUpdated(elapsedTime);
-    emit startStopChanged(isRunning);
-    emit lapTimeCleared();
+void TimerApp::updateTime() {
+    elapsedTime += 0.1;
+    updateLabel();
 }
 
-void Stopwatch::onTimeout() {
-    elapsedTime++;
-    emit timeUpdated(elapsedTime);
+void TimerApp::lapTime() {
+    double lap = (laps.isEmpty() ? elapsedTime : elapsedTime - laps.last());
+    laps.append(elapsedTime);
+    updateTextBrowser();
+}
+
+void TimerApp::clearTime() {
+    resetValues();
+    updateLabel();
+    updateTextBrowser();
+}
+
+void TimerApp::resetValues() {
+    elapsedTime = 0.0;
+    laps.clear();
+}
+
+void TimerApp::updateLabel() {
+    QString timeText = QString::number(elapsedTime, 'f', 1);
+    timeLabel->setText(timeText);
+}
+
+void TimerApp::updateTextBrowser() {
+    textBrowser->clear();
+    for (int i = 0; i < laps.size(); ++i) {
+        double lapDifference = (i > 0) ? (laps.at(i) - laps.at(i - 1)) : laps.at(i);
+        QString lapDifferenceText = QString("Круг %1, время: %2 сек").arg(i + 1).arg(lapDifference, 0, 'f', 1);
+        textBrowser->append(lapDifferenceText);
+    }
 }

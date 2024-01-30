@@ -1,34 +1,39 @@
 #ifndef STOPWATCH_H
 #define STOPWATCH_H
 
-#include <QObject>
+#include <QWidget>
+#include <QPushButton>
+#include <QLabel>
+#include <QTextBrowser>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QTimer>
 
-class Stopwatch : public QObject {
+class TimerApp : public QWidget {
     Q_OBJECT
 
 public:
-    Stopwatch(QObject *parent = nullptr);
-
-public slots:
-    void startStop();
-    void lap();
-    void reset();
+    TimerApp(QWidget *parent = nullptr);
 
 private slots:
-    void onTimeout();
-
-signals:
-    void timeUpdated(int seconds);
-    void startStopChanged(bool isRunning);
-    void lapTimeUpdated(int lapNumber, int lapTime);
-    void lapTimeCleared();
+    void startStopTimer();
+    void updateTime();
+    void lapTime();
+    void clearTime();
 
 private:
+    void resetValues();
+    void updateLabel();
+    void updateTextBrowser();
+
     QTimer *timer;
-    int elapsedTime;
-    int lapCount;
-    bool isRunning;
+    double elapsedTime;
+    QList<double> laps;
+    QPushButton *startStopButton;
+    QPushButton *lapButton;
+    QPushButton *clearButton;
+    QTextBrowser *textBrowser;
+    QLabel *timeLabel;
 };
 
 #endif // STOPWATCH_H
