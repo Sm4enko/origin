@@ -32,6 +32,8 @@ private:
 
     ExampleRace *concurRace1;
     ExampleRace *concurRace2;
+
+    void handleRaceFinish();
 };
 
 #endif // MAINWINDOW_H

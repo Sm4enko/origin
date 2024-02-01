@@ -15,43 +15,19 @@ MainWindow::MainWindow(QWidget *parent)
     concurRace2 = new ExampleRace(&m);
 
     connect(race1, &Controller::sig_WorkFinish, [&]() {
-        if (countFinish == 0) {
-            countFinish++;
-        } else {
-            ui->te_debug->append("Искомое число равно: " + QString::number(number) + ", а должно быть " +
-                                 QString::number(ui->sb_initNum->value() * 2));
-            ui->pb_start->setEnabled(true);
-        }
+        handleRaceFinish();
     });
 
     connect(race2, &Controller::sig_WorkFinish, [&]() {
-        if (countFinish == 0) {
-            countFinish++;
-        } else {
-            ui->te_debug->append("Искомое число равно: " + QString::number(number) + ", а должно быть " +
-                                 QString::number(ui->sb_initNum->value() * 2));
-            ui->pb_start->setEnabled(true);
-        }
+        handleRaceFinish();
     });
 
     connect(concurRace1, &ExampleRace::sig_Finish, [&]() {
-        if (countFinish == 0) {
-            countFinish++;
-        } else {
-            ui->te_debug->append("Искомое число равно: " + QString::number(number) + ", а должно быть " +
-                                 QString::number(ui->sb_initNum->value() * 2));
-            ui->pb_start->setEnabled(true);
-        }
+        handleRaceFinish();
     });
 
     connect(concurRace2, &ExampleRace::sig_Finish, [&]() {
-        if (countFinish == 0) {
-            countFinish++;
-        } else {
-            ui->te_debug->append("Искомое число равно: " + QString::number(number) + ", а должно быть " +
-                                 QString::number(ui->sb_initNum->value() * 2));
-            ui->pb_start->setEnabled(true);
-        }
+        handleRaceFinish();
     });
 }
 
@@ -60,39 +36,43 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::handleRaceFinish()
+{
+    countFinish++;
+    if (countFinish == 2) {
+        ui->te_debug->append("Искомое число равно: " + QString::number(number) + ", а должно быть " +
+                             QString::number(ui->sb_initNum->value() * 2));
+        ui->pb_start->setEnabled(true);
+    }
+}
+
 void MainWindow::StartRace(void)
 {
     ui->pb_start->setEnabled(false);
     countFinish = 0;
     number = 0;
 
+    int numIterations = ui->sb_initNum->value();
+
     QFutureWatcher<void> watcher;
 
-    connect(&watcher, &QFutureWatcher<void>::finished, this, [&]() {
-        countFinish++;
-        if (countFinish == 2) {
-            ui->te_debug->append("Искомое число равно: " + QString::number(number) + ", а должно быть " +
-                                 QString::number(ui->sb_initNum->value() * 2));
-            ui->pb_start->setEnabled(true);
-        }
-    });
+    auto thenFunction = [=]() {
+        handleRaceFinish();
+    };
 
-    int numIterations = ui->sb_initNum->value();
     QFuture<void> future1, future2;
 
     if (ui->rb_mutexOn->isChecked()) {
-        auto function1 = std::bind(&ExampleRace::DoWork, concurRace1, &number, true, numIterations);
-        auto function2 = std::bind(&ExampleRace::DoWork, concurRace2, &number, true, numIterations);
-        future1 = QtConcurrent::run(std::move(function1));
-        future2 = QtConcurrent::run(std::move(function2));
+        future1 = QtConcurrent::run([=]() { concurRace1->DoWork(&number, true, numIterations); });
+        future2 = future1.then([=]() { concurRace2->DoWork(&number, true, numIterations); });
     } else {
-        auto function1 = std::bind(&ExampleRace::DoWork, concurRace1, &number, false, numIterations);
-        auto function2 = std::bind(&ExampleRace::DoWork, concurRace2, &number, false, numIterations);
-        future1 = QtConcurrent::run(std::move(function1));
-        future2 = QtConcurrent::run(std::move(function2));
+        future1 = QtConcurrent::run([=]() { concurRace1->DoWork(&number, false, numIterations); });
+        future2 = future1.then([=]() { concurRace2->DoWork(&number, false, numIterations); });
     }
 
-    watcher.setFuture(future2);  // Устанавливаем watcher для последней задачи в цепочке
+    watcher.setFuture(future2);
+
+    connect(&watcher, &QFutureWatcher<void>::finished, this, thenFunction);
 }
 
 void MainWindow::on_pb_start_clicked()
