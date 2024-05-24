@@ -33,6 +33,7 @@ protected:
 	FVector CursorSize = FVector(20.0f, 40.0f, 40.0f);
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	int PlayerStamina;
+	bool Stop;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	bool ISSprintON; 
 	virtual void BeginPlay() override;

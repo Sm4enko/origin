@@ -35,6 +35,7 @@ ALMADefaultCharacter::ALMADefaultCharacter()
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 	PlayerStamina = 15;
+	Stop = true;
 
 }
 
