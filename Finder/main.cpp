@@ -1,44 +1,87 @@
 #include <iostream>
-#include <Windows.h>
 #include <string>
 #include <vector>
 #include <sstream>
-#include <boost/locale.hpp>
-#include <fstream>
 #include <stdexcept>
 #include <unordered_map>
+#include <thread> 
+#include <boost/locale.hpp>
+#include <boost/asio.hpp>
 #include "Table.h"
 #include "Spider.h"
-#include "INIReader.h"
+#include <pqxx/pqxx>
+#ifdef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <Windows.h>
 
-std::unordered_map<std::string, std::string> readConfig(const std::string& filename) {
-    std::unordered_map<std::string, std::string> settings;
-    std::ifstream file(filename);
-    if (!file.is_open()) {
-        throw std::runtime_error("Failed to open " + filename);
-    }
-    std::string line;
-    while (std::getline(file, line)) {
-        size_t delimiterPos = line.find('=');
-        if (delimiterPos != std::string::npos) {
-            std::string key = line.substr(0, delimiterPos);
-            std::string value = line.substr(delimiterPos + 1);
-            key.erase(0, key.find_first_not_of(' '));
-            key.erase(key.find_last_not_of(' ') + 1);
-            value.erase(0, value.find_first_not_of(' '));
-            value.erase(value.find_last_not_of(' ') + 1);
-            settings[key] = value;
+using boost::asio::ip::tcp;
+
+std::string make_response(const std::string& request) {
+    std::string response;
+
+    if (request.find("GET") == 0) {
+        response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nWelcome, GET request!";
+    } else if (request.find("POST") == 0) {
+     
+        size_t content_start = request.find("\r\n\r\n");
+        std::string body = request.substr(content_start + 4);
+
+      
+        std::istringstream body_stream(body);
+        std::string url;
+        std::getline(body_stream, url);
+
+        if (!url.empty()) {
+                       std::vector<std::string> searchWords;
+            int depth = 2;
+            crawl_page(url, searchWords, depth);
+
+            response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nURL processed: " + url;
+        } else {
+            response = "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\n\r\nNo URL provided!";
         }
+    } else {
+        response = "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\n\r\nUnknown request!";
     }
-    file.close();
-    if (settings.empty()) {
-        throw std::runtime_error("Error (NOT READ) " + filename + " or file is empty.");
-    }
-    return settings;
+
+    return response;
 }
 
-bool isValidWordCount(const std::vector<std::string>& words) {
-    return words.size() >= 3 && words.size() <= 32;
+void handle_request(tcp::socket& socket) {
+    boost::asio::streambuf buffer;
+    boost::system::error_code error;
+
+    boost::asio::read_until(socket, buffer, "\r\n\r\n", error);
+    if (error && error != boost::asio::error::eof) {
+        std::cerr << "Read error: " << error.message() << std::endl;
+        return;
+    }
+
+    std::istream request_stream(&buffer);
+    std::string request;
+    std::getline(request_stream, request);
+
+    std::string response = make_response(request);
+    boost::asio::write(socket, boost::asio::buffer(response), error);
+    if (error) {
+        std::cerr << "Write error: " << error.message() << std::endl;
+    }
+}
+
+void start_http_server() {
+    try {
+        boost::asio::io_context io_context;
+        tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 8080));
+
+        while (true) {
+            tcp::socket socket(io_context);
+            acceptor.accept(socket);
+            handle_request(socket);
+        }
+    } catch (std::exception& e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
+    }
 }
 
 int main() {
@@ -85,14 +128,20 @@ int main() {
         searchWords.push_back(word);
     }
 
-    if (!isValidWordCount(searchWords)) {
-        std::cout << "Only 3 to 32 words." << std::endl;
+    if (searchWords.size() < 1 || searchWords.size() > 32) {
+        std::cout << "Only 1 to 32 words." << std::endl;
         return 1;
     }
+
+    std::thread server_thread(start_http_server);
+    server_thread.detach();
 
     crawl_page(Page, searchWords, Deep);
 
     retrieve_data();
+
+    std::cout << "Press enter to exit..." << std::endl;
+    std::cin.get();
 
     return 0;
 }

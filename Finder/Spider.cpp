@@ -70,7 +70,7 @@ void crawl_page(const std::string& url, const std::vector<std::string>& searchWo
         if (url.find("https://") == 0) {
             host = url.substr(8);
         } else {
-            std::cerr << "Error (URL FORMAT). Need like https://www.example.com/path" << std::endl;
+            std::cerr << "Please use format https://www.site.com/path" << std::endl;
             return;
         }
 
@@ -79,7 +79,7 @@ void crawl_page(const std::string& url, const std::vector<std::string>& searchWo
         host = (pos == std::string::npos) ? host : host.substr(0, pos);
 
         if (host.empty() || target.empty()) {
-            std::cerr << "Error (URL FORMAT). Need like https://www.example.com/path" << std::endl;
+            std::cerr << "Please use format like https://www.site.com/path" << std::endl;
             return;
         }
 
@@ -110,7 +110,7 @@ void crawl_page(const std::string& url, const std::vector<std::string>& searchWo
         if (htmlFile.is_open()) {
             htmlFile << responseBody;
             htmlFile.close();
-            std::cout << "Main HTML content saved to " << filename << std::endl;
+            std::cout << "Download content saved to " << filename << std::endl;
         } else {
             std::cerr << "Failed to save main HTML content to " << filename << std::endl;
         }
@@ -137,12 +137,30 @@ void crawl_page(const std::string& url, const std::vector<std::string>& searchWo
         pqxx::connection conn("dbname=testdb user=postgres password=1520L host=127.0.0.1 port=5432");
         pqxx::work txn(conn);
 
+               txn.exec_params(
+            "INSERT INTO pages (url) VALUES ($1) ON CONFLICT (url) DO NOTHING",
+            url
+        );
+
+        pqxx::result pageResult = txn.exec_params("SELECT id FROM pages WHERE url = $1", url);
+        int pageId = pageResult[0][0].as<int>();
+
         for (const auto& searchWord : searchWords) {
             auto it = wordFrequency.find(searchWord);
             if (it != wordFrequency.end()) {
+                pqxx::result wordResult = txn.exec_params("SELECT id FROM words WHERE word = $1", searchWord);
+                int wordId;
+                if (wordResult.empty()) {
+                    wordResult = txn.exec_params("INSERT INTO words (word) VALUES ($1) RETURNING id", searchWord);
+                    wordId = wordResult[0][0].as<int>();
+                } else {
+                    wordId = wordResult[0][0].as<int>();
+                }
+
                 txn.exec_params(
-                    "INSERT INTO word_data (word, frequency) VALUES ($1, $2)",
-                    searchWord, it->second
+                    "INSERT INTO word_occurrences (word_id, page_id, frequency) VALUES ($1, $2, $3) "
+                    "ON CONFLICT (word_id, page_id) DO UPDATE SET frequency = EXCLUDED.frequency",
+                    wordId, pageId, it->second
                 );
             }
         }
